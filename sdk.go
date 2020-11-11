@@ -195,11 +195,13 @@ func (c *Client) makeDigest(evidence *Evidence) (err error) {
 	for i, m := range evidence.Materials {
 		content, err := base64.StdEncoding.DecodeString(m.ContentBase64)
 		if err != nil {
+			err = fmt.Errorf("资料[%d]内容格式无效：%v", i, err)
 			return err
 		}
 
 		digest, err := c.csp.Hash(content, &cl.SHA256Opts{})
 		if err != nil {
+			err = fmt.Errorf("资料[%d]内容摘要失败: %v", i, err)
 			return err
 		}
 		digestHex := hex.EncodeToString(digest)
@@ -221,6 +223,7 @@ func (c *Client) makeSignature(evidence *Evidence) (err error) {
 	// 解析应用私钥
 	appSecret, err := hex.DecodeString(c.opts.AppSecret)
 	if err != nil {
+		err = fmt.Errorf("应用私钥appSecret格式无效: %v", err)
 		return err
 	}
 	k := &cl.Ed25519PrivateKey{
@@ -236,6 +239,7 @@ func (c *Client) makeSignature(evidence *Evidence) (err error) {
 	// 对摘要值进行签名
 	signature, err := c.csp.Sign(k, digest)
 	if err != nil {
+		err = fmt.Errorf("对证据签名失败: %v", err)
 		return err
 	}
 
