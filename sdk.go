@@ -45,6 +45,13 @@ type Evidence struct {
 	// 证据保全名称，有意义的名称帮助记忆证据保全内容
 	Name string `json:"name"`
 
+	// 证据保全 权属主
+	Owner string
+	// 证据保全 权属主ID
+	OwnerID string
+	// 证据保全 权属主邮箱
+	MailAddress string
+
 	// 证据摘要值,十六进制编码字符串。
 	// 该摘要值由所有证据资料的摘要值计算而成，计算规则是：
 	// 1. 对证据包内所有的资料内容分别做SHA256哈希运算得到各自的摘要值
