@@ -51,6 +51,8 @@ type Evidence struct {
 	OwnerID string
 	// 证据保全 权属主邮箱
 	MailAddress string
+	// 标识证书模板
+	Mark string
 
 	// 证据摘要值,十六进制编码字符串。
 	// 该摘要值由所有证据资料的摘要值计算而成，计算规则是：
