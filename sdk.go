@@ -46,13 +46,13 @@ type Evidence struct {
 	Name string `json:"name"`
 
 	// 证据保全 权属主
-	Owner string
+	Owner string `json:"owner"`
 	// 证据保全 权属主ID
-	OwnerID string
+	OwnerID string `json:"owner_id"`
 	// 证据保全 权属主邮箱
-	MailAddress string
+	MailAddress string `json:"mail_address"`
 	// 标识证书模板
-	Mark string
+	Mark string `json:"mark"`
 
 	// 证据摘要值,十六进制编码字符串。
 	// 该摘要值由所有证据资料的摘要值计算而成，计算规则是：
