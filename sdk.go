@@ -53,6 +53,8 @@ type Evidence struct {
 	MailAddress string `json:"mail_address"`
 	// 标识证书模板
 	Mark string `json:"mark"`
+	// 证书有效期
+	Year int `json:"year"`
 
 	// 证据摘要值,十六进制编码字符串。
 	// 该摘要值由所有证据资料的摘要值计算而成，计算规则是：
