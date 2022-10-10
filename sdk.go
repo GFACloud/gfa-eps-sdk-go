@@ -217,7 +217,8 @@ func (c *Client) makeDigest(evidence *Evidence) (err error) {
 		}
 		digestHex := hex.EncodeToString(digest)
 		materialDigests = append(materialDigests, digestHex)
-
+		//清空base64原始数据内容大小 减少网络流量
+		evidence.Materials[i].ContentBase64 = ""
 		evidence.Materials[i].DigestHex = digestHex
 	}
 
