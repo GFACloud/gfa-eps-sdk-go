@@ -1,9 +1,13 @@
 package epssdk
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"sort"
 	"strings"
 
@@ -266,16 +270,42 @@ func (c *Client) postEvidence(evidence *Evidence) (err error) {
 	url := fmt.Sprintf("http://%s/evidence/createEvidence", c.opts.Addr)
 	var result Response
 
-	resp, err := c.httpClient.R().
-		SetBody(evidence).
-		SetResult(&result).
-		Post(url)
+	//resp, err := c.httpClient.R().
+	//	SetBody(evidence).
+	//	SetResult(&result).
+	//	Post(url)
+	//if err != nil {
+	//	return err
+	//}
+	//if resp.IsError() {
+	//	return fmt.Errorf("%v %v", resp.Status(), resp.Error())
+	//}
+	//if result.Code != 0 {
+	//	return fmt.Errorf("%v %v", result.Code, result.Msg)
+	//}
+	bytesData, _ := json.Marshal(evidence)
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", url, bytes.NewReader(bytesData))
 	if err != nil {
 		return err
 	}
-	if resp.IsError() {
-		return fmt.Errorf("%v %v", resp.Status(), resp.Error())
+	// NOTE this !!
+	req.Close = true
+
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
 	}
+	defer resp.Body.Close()
+
+	response, err := ioutil.ReadAll(resp.Body)
+
+	err = json.Unmarshal(response, &result)
+	if err != nil {
+		return err
+	}
+
 	if result.Code != 0 {
 		return fmt.Errorf("%v %v", result.Code, result.Msg)
 	}
