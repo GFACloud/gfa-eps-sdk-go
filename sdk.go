@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	cl "github.com/ewangplay/cryptolib"
-	resty "github.com/go-resty/resty/v2"
 )
 
 // Material represents the material structure.
@@ -108,9 +107,9 @@ type Options struct {
 
 // Client represents GFA-EPS client.
 type Client struct {
-	opts       *Options
-	csp        cl.CSP
-	httpClient *resty.Client
+	opts *Options
+	csp  cl.CSP
+	//httpClient *resty.Client
 }
 
 // NewClient creates an instance of Client.
@@ -127,9 +126,10 @@ func NewClient(opts *Options) (c *Client, err error) {
 	}
 
 	// 初始化Http客户端
-	httpClient := resty.New()
+	//httpClient := resty.New()
 
-	c = &Client{opts: opts, csp: csp, httpClient: httpClient}
+	//c = &Client{opts: opts, csp: csp, httpClient: httpClient}
+	c = &Client{opts: opts, csp: csp}
 	return c, nil
 }
 
