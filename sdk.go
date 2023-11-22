@@ -67,6 +67,8 @@ type Evidence struct {
 	//
 	// 注意：该字段由客户端程序自动生成，用户不需要填充
 	DigestHex string `json:"digestHex"`
+	//一个文件为文件本身的hash
+	DigestOnce string `json:"digestOnce"`
 
 	// 证据签名值，Base64编码字符串。
 	// 该签名值是使用应用私钥(appSecret)对上面的证据摘要值进行
@@ -230,6 +232,7 @@ func (c *Client) makeDigest(evidence *Evidence) (err error) {
 	if err != nil {
 		return err
 	}
+	evidence.DigestOnce = evidence.Materials[0].DigestHex
 	evidence.DigestHex = evidenceDigest
 
 	return nil
